@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import com.excelhandler.model.Convertable;
 
@@ -24,7 +24,7 @@ public class ConvertableFiller {
 	 * @throws InvocationTargetException 
 	 * @throws NoSuchMethodException 
 	 */
-	public List<Convertable> retrieveBeansFromSheet(XSSFSheet mySheet, Class<? extends Convertable> classz) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+	public List<Convertable> retrieveBeansFromSheet(HSSFSheet mySheet, Class<? extends Convertable> classz) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
 		
 		List<Convertable> convertables = new ArrayList<>();
