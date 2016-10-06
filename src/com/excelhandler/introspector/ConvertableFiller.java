@@ -93,7 +93,7 @@ public class ConvertableFiller {
 			
 			for(String title : convIntrospector.getConvertAttributes().keySet()){
 				Cell cell = row.createCell(cellNum++);
-				cell.setCellValue( BeanIntrospector.getProperty(convertable, convIntrospector.getConvertAttribute(title)).toString() );			
+				cell.setCellValue(BeanIntrospector.getPropertyAsString(convertable, convIntrospector.getConvertAttribute(title)));			
 			}
 			cellNum = 0;
 			

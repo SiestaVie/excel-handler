@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.excelhandler.model.Convert;
 
@@ -33,6 +35,16 @@ public class BeanIntrospector {
        method = bean.getClass().getMethod("get" + name.substring(0, 1).toUpperCase() + name.substring(1));
        return method.invoke(bean, (Object[]) null);
 
+   }
+   
+   public static String getPropertyAsString(Object bean, String name) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException{
+	   
+	   Object obj = getProperty(bean, name);
+	   
+	   if(obj != null)
+    	   return obj.toString();
+    	   
+       return "";
    }
 
    /**
@@ -80,9 +92,10 @@ public class BeanIntrospector {
 		  return fieldsAndValues;
    }
    
-   public static HashMap<String, String> retrieveConvertableFields(Object object) {
+   public static Map<String, String> retrieveConvertableFields(Object object) {
 
-	   HashMap<String, String> fieldsAndValues = new HashMap<String, String>();
+	   LinkedHashMap<String, String> fieldsAndValues = new LinkedHashMap <String, String>();
+	   
 	   Field[] fields = object.getClass().getDeclaredFields();
 
 		  for (Field field : fields) {
