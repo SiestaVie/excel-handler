@@ -2,6 +2,7 @@ package com.excelhandler.processor.test;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -25,41 +26,31 @@ public class XSLXProcessorTest {
 	}
 
 	@Test
-	public void writeConvertableIntoXLSTest() throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException{
+	public void writeConvertableIntoXLSTest() throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException, InstantiationException{
 		
 		
 		List<Convertable> convertables = new ArrayList<>();
 		
 		ConvertBeanSample sample1 = new ConvertBeanSample();
-		sample1.setName("Nome-----");
+		sample1.setName("So----");
+		
+		ConvertBeanSample sample2 = new ConvertBeanSample();
+		sample2.setName("Then-----");
 		
 		convertables.add(sample1);
+		convertables.add(sample2);
 		
 		File file = processor.writeConvertableIntoXLS(convertables);
 		
-		BufferedReader br = null;
-
-		try {
-
-			String sCurrentLine;
-
-			br = new BufferedReader(new FileReader(file));
-
-			while ((sCurrentLine = br.readLine()) != null) {
-				System.out.println(sCurrentLine);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (br != null)br.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+		FileInputStream fis = null;
+		fis = new FileInputStream(file);
+		
+		List<Convertable> convertables2 = processor.readXLS(fis, ConvertBeanSample.class);
+		
+		for(Convertable conv : convertables2){
+			System.out.println(((ConvertBeanSample) conv).getName());
 		}
 		
-	}
-
+		}
 
 }
