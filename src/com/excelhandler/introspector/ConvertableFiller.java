@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
@@ -61,6 +62,45 @@ public class ConvertableFiller {
 		}
 
 		return convertables;
+	}
+
+
+	public HSSFWorkbook generateSheetFromBeans(List<Convertable> convertables) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
+		
+		HSSFWorkbook book = new HSSFWorkbook();
+		HSSFSheet sheet = book.createSheet();
+		ConvertableIntrospector convIntrospector = new ConvertableIntrospector();
+		
+		boolean first = true;
+		int rowNum = 0;
+		int cellNum = 0;
+		
+		for(Convertable convertable : convertables){
+			
+			if(first){
+				Row row = sheet.createRow(rowNum);
+				convIntrospector.storeClassConvertAttributes(convertable);				
+				
+				for(String title : convIntrospector.getConvertAttributes().keySet()){
+					Cell cell = row.createCell(cellNum++);
+					cell.setCellValue(title);					
+				}
+				first = false;
+				cellNum = 0;
+			}
+			
+			Row row = sheet.createRow(++rowNum);
+			
+			for(String title : convIntrospector.getConvertAttributes().keySet()){
+				Cell cell = row.createCell(cellNum++);
+				cell.setCellValue( BeanIntrospector.getProperty(convertable, convIntrospector.getConvertAttribute(title)).toString() );			
+			}
+			cellNum = 0;
+			
+			
+		}
+					
+		return book;
 	}
 	
 	

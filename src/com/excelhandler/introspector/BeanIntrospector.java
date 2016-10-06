@@ -21,14 +21,14 @@ public class BeanIntrospector {
     * @throws NoSuchMethodException
     * @throws NoSuchFieldException
     */
-   private static Object getProperty(Object bean, String name) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
+   public static Object getProperty(Object bean, String name) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, NoSuchFieldException {
 
        Method method;
        if (bean == null) {
-    	             
+    	  return null;           
        }
        if (name == null) {
-    	 
+    	 return null;
        }
        method = bean.getClass().getMethod("get" + name.substring(0, 1).toUpperCase() + name.substring(1));
        return method.invoke(bean, (Object[]) null);
@@ -47,10 +47,10 @@ public class BeanIntrospector {
    public static void setProperty(Object bean, String name, String value) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
 	   if (null == bean) {
-
+		   return;
        }
        if (null == name) {
-
+    	   return;
        }
 
        @SuppressWarnings("rawtypes")
